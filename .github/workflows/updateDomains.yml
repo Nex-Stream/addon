@@ -23,11 +23,11 @@ jobs:
       run: python tools/updateDomains.py
       
     - name: Pull latest changes
-      run: git pull origin master
+      run: git pull origin main
 
     - name: Commit & Push changes
-      uses: actions-js/push@master
+      uses: actions-js/push@main
       with:
         message: "Aggiornamento domini"
-        branch: "master"
+        branch: "main"
         github_token: ${{ secrets.API_TOKEN_GITHUB || github.token }}
