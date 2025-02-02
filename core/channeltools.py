@@ -12,7 +12,7 @@ DEFAULT_UPDATE_URL = "/channels/"
 dict_channels_parameters = dict()
 default_file = dict()
 
-remote_path = 'https://raw.githubusercontent.com/kodiondemand/media/master/'
+remote_path = 'https://raw.githubusercontent.com/Nex-Stream/media/main/'
 
 def is_enabled(channel_name):
     logger.debug("channel_name=" + channel_name)
