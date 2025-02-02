@@ -29,5 +29,5 @@ jobs:
       uses: actions-js/push@master
       with:
         message: "Aggiornamento domini"
-        branch: "master"
+        branch: "main"
         github_token: ${{ secrets.API_TOKEN_GITHUB || github.token }}
