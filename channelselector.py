@@ -213,9 +213,8 @@ def get_thumb(thumb_name, view="thumb_"):
         media_path = config.get_setting('custom_theme')
     else:
         icon_pack_name = config.get_setting('icon_set', default="default")
-        media_path = filetools.join("https://raw.githubusercontent.com/kodiondemand/media/master/themes", icon_pack_name)
+        media_path = filetools.join("https://raw.githubusercontent.com/Nex-Stream/media/master/themes", icon_pack_name)
     return filetools.join(media_path, view + thumb_name)
-
 
 def set_channel_info(parameters):
     logger.debug()
