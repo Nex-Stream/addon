@@ -34,9 +34,8 @@
     [COLOR yellow]Kodi © is a registered trademark of the XBMC Foundation. We are not connected to or in any other way affiliated with Kodi, Team Kodi, or the XBMC Foundation. Furthermore, any software, addons, or products offered by us will receive no support in official Kodi channels, including the Kodi forums and various social networks.[/COLOR]</disclaimer>
     <platform>all</platform>
     <license>GNU GPL v3</license>
-    <website>https://kodiondemand.github.io/</website>
-    <forum>https://t.me/kodiondemand</forum>
-    <source>https://github.com/kodiondemand/addon</source>
+    <website>work in progress</website>
+    <source>https://github.com/Nex-Stream/addon</source>
   </extension>
   <extension point="xbmc.service" library="service.py" start="login|startup">
   </extension>
