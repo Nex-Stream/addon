@@ -18,8 +18,8 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <summary lang="en">Kodi on Demand is a Kodi add-on to search and watch contents on the web.</summary>
-    <summary lang="it">Kodi on Demand è un addon di Kodi per cercare e guardare contenuti sul web.</summary>
+    <summary lang="en">NexStream is a third parties add-on to search and watch contents on the web.</summary>
+    <summary lang="it">NexStream è un addon di terze parti per cercare e guardare contenuti sul web.</summary>
     <assets>
       <icon>resources/media/logo.png</icon>
       <fanart>resources/media/fanart.jpg</fanart>
