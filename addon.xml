@@ -1,4 +1,4 @@
-<addon id="plugin.video.kod" name="Kodi on Demand" version="1.7.7" provider-name="KoD Team">
+<addon id="plugin.video.kod" name="Nex-Stream" version="1.7.7" provider-name="KoD Team">
   <requires>
     <!-- <import addon="script.module.libtorrent" optional="true"/> -->
     <import addon="metadata.themoviedb.org" optional="true"/>
