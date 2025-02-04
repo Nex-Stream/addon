@@ -1,0 +1,36 @@
+name: Sync GitLab to GitHub
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'  # Controlla ogni 10 minuti
+  workflow_dispatch:  # Permette di avviare manualmente il workflow
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Scarica il file da GitLab
+        run: curl -o channels.json "https://gitlab.com/personal4143605/kod-domains-update/-/raw/main/channels.json?inline=false"
+
+      - name: Verifica differenze
+        id: check_diff
+        run: |
+          if git diff --exit-code channels.json; then
+            echo "Nessuna modifica trovata."
+            echo "changed=false" >> $GITHUB_ENV
+          else
+            echo "Il file è cambiato, avviamo il commit."
+            echo "changed=true" >> $GITHUB_ENV
+          fi
+
+      - name: Commit e push se ci sono modifiche
+        if: env.changed == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions@github.com"
+          git add channels.json
+          git commit -m "Aggiornamento automatico da GitLab"
+          git push
