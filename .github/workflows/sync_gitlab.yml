@@ -2,7 +2,7 @@ name: Sync GitLab to GitHub
 
 on:
   schedule:
-    - cron: '*/10 * * * *'  # Controlla ogni 10 minuti
+    - cron: '0 * * * *'  # Controlla ogni ora
   workflow_dispatch:  # Permette di avviare manualmente il workflow
 
 jobs:
