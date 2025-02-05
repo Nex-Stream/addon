@@ -23,7 +23,7 @@ jobs:
       run: python tools/updateDomains.py
       
     - name: Pull latest changes
-      run: git pull origin test
+      run: git pull origin main
 
     - name: Commit & Push changes
       uses: actions-js/push@master
