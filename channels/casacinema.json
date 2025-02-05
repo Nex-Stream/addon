@@ -6,6 +6,5 @@
     "thumbnail": "casacinema.png",
     "banner": "casacinema.png",
     "categories": ["tvshow", "movie","vos"],
-    "settings": [
-    ]
+    "settings": []
 }
