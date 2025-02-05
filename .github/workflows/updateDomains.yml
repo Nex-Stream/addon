@@ -23,7 +23,7 @@ jobs:
       run: python tools/updateDomains.py
       
     - name: Pull latest changes
-      run: git pull --rebase origin test
+      run: git pull origin test
 
 
     - name: Commit & Push changes
