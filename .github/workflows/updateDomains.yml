@@ -20,7 +20,7 @@ jobs:
       run: pip install requests
 
     - name: Update domains
-      run: python tools/updateDomains.py
+      run: python tools/Test.py
       
     - name: Pull latest changes
       run: git pull origin test
