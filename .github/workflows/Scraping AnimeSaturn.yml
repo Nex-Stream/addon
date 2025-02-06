@@ -15,10 +15,10 @@ jobs:
         uses: actions/checkout@v2
 
       # Setta Python
-      - name: Set up Python
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
         with:
-          python-version: '3.9'
+          python-version: 3.9.21
 
       # Installa le dipendenze necessarie
       - name: Install dependencies
