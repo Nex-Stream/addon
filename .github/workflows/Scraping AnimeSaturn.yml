@@ -28,7 +28,7 @@ jobs:
       # Esegui lo script di scraping
       - name: Run scraper script
         run: |
-          python tools/scraper.py
+          python tools/Scraper.py
 
       # Carica il file di testo generato come artefatto
       - name: Upload results as artifact
