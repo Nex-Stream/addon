@@ -9,7 +9,7 @@ host = support.config.get_channel_url()
 __channel__ = 'animesaturn'
 cookie = support.config.get_setting('cookie', __channel__)
 
-# Aggiungi l'header User-Agent
+# Aggiungi User-Agent come parte del dizionario headers
 user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
 headers = {
     'X-Requested-With': 'XMLHttpRequest',
@@ -21,7 +21,9 @@ def get_cookie(data):
     global cookie, headers
     cookie = support.match(data, patron=r'document.cookie="([^\s]+)').match
     support.config.set_setting('cookie', cookie, __channel__)
-    headers = [['Cookie', cookie], ['User-Agent', user_agent]]  # Assicurati che l'User-Agent venga aggiornato anche qui
+    # Aggiorna gli headers con il nuovo cookie e User-Agent
+    headers['Cookie'] = cookie
+    headers['User-Agent'] = user_agent  # Assicurati di aggiornare l'User-Agent
 
 def get_data(item):
     data = support.match(item.url, headers=headers, follow_redirects=True).data
@@ -69,6 +71,47 @@ def newest(categoria):
 
     return itemlist
 
-# Le altre funzioni seguiranno lo stesso schema per utilizzare gli headers aggiornati...
-# Assicurati che tutte le richieste HTTP utilizzino `headers=headers` per applicare l'User-Agent personalizzato
+# Assicurati che tutte le richieste HTTP usino gli headers corretti
+@support.scrape
+def peliculas(item):
+    anime = True
 
+    deflang = 'Sub-ITA'
+    action = 'check'
+    page = None
+    post = "page=" + str(item.page if item.page else 1) if item.page and int(item.page) > 1 else None
+    data = get_data(item)  # Assicurati che venga usato il cookie e User-Agent
+
+    # debug = True
+
+    if item.args == 'top':
+        data = item.other
+        patron = r'light">(?P<title2>[^<]+)</div>\s*(?P<title>[^<]+)[^>]+>[^>]+>\s*<a href="(?P<url>[^"]+)">(?:<a[^>]+>|\s*)<img.*?src="(?P<thumb>[^"]+)"'
+    else:
+        data = support.match(item, post=post, headers=headers).data  # Usa gli headers corretti per la richiesta
+        if item.args == 'updated':
+            page = support.match(data, patron=r'data-page="(\d+)" title="Next">').match
+            patron = r'<a href="(?P<url>[^"]+)" title="(?P<title>[^"(]+)(?:\s*\((?P<year>\d+)\))?(?:\s*\((?P<lang>[A-Za-z-]+)\))?">\s*<img src="(?P<thumb>[^"]+)"[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>\s\s*(?P<type>[^\s]+)\s*(?P<episode>\d+)'
+            typeContentDict = {'Movie':'movie', 'Episodio':'episode'} #item.contentType='episode'
+            action = 'findvideos'
+            def itemlistHook(itemlist):
+                if page:
+                    itemlist.append(item.clone(title=support.typo(support.config.get_localized_string(30992), 'color kod bold'), page=page, thumbnail=support.thumb()))
+                return itemlist
+        elif 'filter' in item.args:
+            page = support.match(data, patron=r'totalPages:\s*(\d+)').match
+            patron = r'<a href="(?P<url>[^"]+)" title="(?P<title>[^"(]+)(?:\s*\((?P<year>\d+)\))?(?:\s*\((?P<lang>[A-Za-z-]+)\))?">\s*<img src="(?P<thumb>[^"]+)"'
+            def itemlistHook(itemlist):
+                if item.nextpage: item.nextpage += 1
+                else: item.nextpage = 2
+                if page and item.nextpage < int(page):
+                    itemlist.append(item.clone(title=support.typo(support.config.get_localized_string(30992), 'color kod bold'), url='{}&page={}'.format(item.url, item.nextpage), infoLabels={}, thumbnail=support.thumb()))
+                return itemlist
+        else:
+            # pagination = ''
+            if item.args == 'incorso':
+                patron = r'<a href="(?P<url>[^"]+)"[^>]+>(?P<title>[^<(]+)(?:\s*\((?P<year>\d+)\))?(?:\s*\((?P<lang>[A-za-z-]+)\))?</a>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>\s*<img width="[^"]+" height="[^"]+" src="(?P<thumb>[^"]+)"[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>(?P<plot>[^<]+)<'
+            else:
+                patron = r'<img src="(?P<thumb>[^"]+)" alt="(?P<title>[^"\(]+)(?:\((?P<lang>[Ii][Tt][Aa])\))?(?:\s*\((?P<year>\d+)\))?[^"]*"[^>]+>[^>]+>[^>]+>[^>]+>[^>]+>\s*<a class="[^"]+" href="(?P<url>[^"]+)">[^>]+>[^>]+>[^>]+>\s*<p[^>]+>(?:(?P<plot>[^<]+))?<'
+
+    return locals()
