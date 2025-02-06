@@ -1,0 +1,38 @@
+name: Scraping AnimeSaturn
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Checkout del repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Setta Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      # Installa le dipendenze necessarie
+      - name: Install dependencies
+        run: |
+          pip install selenium webdriver-manager
+
+      # Esegui lo script di scraping
+      - name: Run scraper script
+        run: |
+          python scraper.py
+
+      # Carica il file di testo generato come artefatto
+      - name: Upload results as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: scraped-results
+          path: scraped_results.txt
