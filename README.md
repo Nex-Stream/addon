@@ -1,4 +1,4 @@
-# Kodi On Demand
+# On Demand
 ### Un fork italiano di [Alfa](https://github.com/alfa-addon)
 
 Installazione: https://kodiondemand.github.io/#download
