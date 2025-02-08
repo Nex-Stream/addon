@@ -1,10 +1,11 @@
-<addon id="plugin.video.kod" name="Kodi on Demand" version="1.7.7" provider-name="KoD Team">
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.kod" name="Kodi on Demand BETA" version="1.7.7" provider-name="KoD Team">
   <requires>
     <!-- <import addon="script.module.libtorrent" optional="true"/> -->
     <import addon="metadata.themoviedb.org" optional="true"/>
     <import addon="metadata.tvshows.themoviedb.org" optional="true"/>
     <!-- <import addon="metadata.tvdb.com"/> -->
-    
+    <import addon="script.module.web-pdb" />
   </requires>
   <extension point="xbmc.python.pluginsource" library="default.py">
     <provides>video</provides>
@@ -18,8 +19,8 @@
     </menu>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <summary lang="en">NexStream is a third parties add-on to search and watch contents on the web.</summary>
-    <summary lang="it">NexStream è un addon di terze parti per cercare e guardare contenuti sul web.</summary>
+    <summary lang="en">Kodi on Demand is a Kodi add-on to search and watch contents on the web.</summary>
+    <summary lang="it">Kodi on Demand è un addon di Kodi per cercare e guardare contenuti sul web.</summary>
     <assets>
       <icon>resources/media/logo.png</icon>
       <fanart>resources/media/fanart.jpg</fanart>
@@ -34,8 +35,9 @@
     [COLOR yellow]Kodi © is a registered trademark of the XBMC Foundation. We are not connected to or in any other way affiliated with Kodi, Team Kodi, or the XBMC Foundation. Furthermore, any software, addons, or products offered by us will receive no support in official Kodi channels, including the Kodi forums and various social networks.[/COLOR]</disclaimer>
     <platform>all</platform>
     <license>GNU GPL v3</license>
-    <website>work in progress</website>
-    <source>https://github.com/Nex-Stream/addon</source>
+    <website>https://kodiondemand.github.io/</website>
+    <forum>https://t.me/kodiondemand</forum>
+    <source>https://github.com/kodiondemand/addon</source>
   </extension>
   <extension point="xbmc.service" library="service.py" start="login|startup">
   </extension>

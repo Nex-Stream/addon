@@ -216,6 +216,7 @@ def get_thumb(thumb_name, view="thumb_"):
         media_path = filetools.join("https://raw.githubusercontent.com/Nex-Stream/media/main/themes", icon_pack_name)
     return filetools.join(media_path, view + thumb_name)
 
+
 def set_channel_info(parameters):
     logger.debug()
 
