@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numero di Commit GitHub</title>
+    <style>
+        #commitCount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0366d6;
+        }
+    </style>
+</head>
+<body>
+    <h2>Numero di commit nel repository GitHub</h2>
+    <p>Commit totali: <span id="commitCount">Caricamento...</span></p>
+
+    <script>
+        const username = "nex-stream";  // Sostituisci con il tuo username GitHub
+        const repo = "addon";    // Sostituisci con il nome del repository
+        const branch = "main";        // Cambia se usi un altro branch
+
+        function fetchCommitCount() {
+            const url = `https://api.github.com/repos/${username}/${repo}/commits?sha=${branch}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        document.getElementById("commitCount").textContent = data.length;
+                    } else {
+                        document.getElementById("commitCount").textContent = "Errore";
+                    }
+                })
+                .catch(error => {
+                    console.error("Errore nel recupero dei commit:", error);
+                    document.getElementById("commitCount").textContent = "Errore";
+                });
+        }
+
+        // Aggiorna il numero di commit ogni 60 secondi
+        fetchCommitCount();
+        setInterval(fetchCommitCount, 60000);
+    </script>
+</body>
+</html>
