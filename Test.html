@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Numero di Commit GitHub</title>
+    <title>Ultimo Commit GitHub</title>
     <style>
-        #commitCount {
+        #commitHash, #commitDate {
             font-size: 24px;
             font-weight: bold;
             color: #0366d6;
@@ -13,35 +13,51 @@
     </style>
 </head>
 <body>
-    <h2>Numero di commit nel repository GitHub</h2>
-    <p>Commit totali: <span id="commitCount">Caricamento...</span></p>
+    <h2>Ultimo Commit su GitHub (nex-stream/addon)</h2>
+    <p>Versione del commit: <span id="commitHash">Caricamento...</span></p>
+    <p>Orario commit: <span id="commitDate">Caricamento...</span></p>
 
     <script>
-        const username = "nex-stream";  // Sostituisci con il tuo username GitHub
-        const repo = "addon";    // Sostituisci con il nome del repository
-        const branch = "main";        // Cambia se usi un altro branch
+        const username = "nex-stream";  
+        const repo = "addon";    
+        const branch = "main";    
 
-        function fetchCommitCount() {
-            const url = `https://api.github.com/repos/${username}/${repo}/commits?sha=${branch}`;
+        function fetchLatestCommit() {
+            const url = `https://api.github.com/repos/${username}/${repo}/commits/${branch}`;
 
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    if (Array.isArray(data)) {
-                        document.getElementById("commitCount").textContent = data.length;
+                    if (data && data.sha && data.commit && data.commit.author && data.commit.author.date) {
+                        // Mostra i primi 7 caratteri dell'hash del commit
+                        document.getElementById("commitHash").textContent = data.sha.substring(0, 7);
+
+                        // Converti la data del commit in formato leggibile
+                        const commitDate = new Date(data.commit.author.date);
+                        document.getElementById("commitDate").textContent = commitDate.toLocaleString("it-IT", {
+                            timeZone: "Europe/Rome",
+                            year: "numeric", 
+                            month: "2-digit", 
+                            day: "2-digit",
+                            hour: "2-digit", 
+                            minute: "2-digit", 
+                            second: "2-digit"
+                        });
                     } else {
-                        document.getElementById("commitCount").textContent = "Errore";
+                        document.getElementById("commitHash").textContent = "Errore";
+                        document.getElementById("commitDate").textContent = "Errore";
                     }
                 })
                 .catch(error => {
-                    console.error("Errore nel recupero dei commit:", error);
-                    document.getElementById("commitCount").textContent = "Errore";
+                    console.error("Errore nel recupero del commit:", error);
+                    document.getElementById("commitHash").textContent = "Errore";
+                    document.getElementById("commitDate").textContent = "Errore";
                 });
         }
 
-        // Aggiorna il numero di commit ogni 60 secondi
-        fetchCommitCount();
-        setInterval(fetchCommitCount, 60000);
+        // Esegui la funzione all'avvio e aggiorna ogni 60 secondi
+        fetchLatestCommit();
+        setInterval(fetchLatestCommit, 60000);
     </script>
 </body>
 </html>
